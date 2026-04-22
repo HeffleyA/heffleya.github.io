@@ -22,7 +22,7 @@
           <a href="https://www.linkedin.com/in/adrian-heffley/" target="_blank" rel="noopener" class="contact-item">
             <span class="cmd-prompt">$</span>
             <span class="cmd-name">linkedin</span>
-            <span class="cmd-value">linkedin.com/in/yourprofile</span>
+            <span class="cmd-value">https://www.linkedin.com/in/adrian-heffley/</span>
           </a>
         </div>
       </div>
