@@ -17,7 +17,7 @@
           <a href="https://github.com/HeffleyA" target="_blank" rel="noopener" class="contact-item">
             <span class="cmd-prompt">$</span>
             <span class="cmd-name">github</span>
-            <span class="cmd-value">github.com/aheffley</span>
+            <span class="cmd-value">https://github.com/HeffleyA</span>
           </a>
           <a href="https://www.linkedin.com/in/adrian-heffley/" target="_blank" rel="noopener" class="contact-item">
             <span class="cmd-prompt">$</span>
