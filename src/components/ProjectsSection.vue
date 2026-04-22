@@ -1,11 +1,12 @@
 <script setup>
 const projects = [
   {
-    name: 'Project Alpha',
-    description: 'A brief description of what this project does and the problem it solves. Replace with your real project details.',
-    tech: ['Vue.js', 'Node.js', 'PostgreSQL'],
-    github: 'https://github.com/aheffley/project-alpha',
+    name: 'War-Zonez / Tank Game',
+    description: 'This "Tank Game" was the first game I had ever completed in Unity. I believe it is a good representation of my baseline understanding of C# code, game physics, and Unity',
+    tech: ['C#', 'Visual Studio', 'Unity'],
+    github: 'https://github.com/HeffleyA/War-Zonez',
     live: null,
+    recording: '/recordings/HeffleyA-TankGame.mp4'
   },
   {
     name: 'Project Beta',
@@ -43,6 +44,12 @@ const projects = [
           <div class="tech-stack">
             <span v-for="tech in project.tech" :key="tech" class="tech-tag">{{ tech }}</span>
           </div>
+          <video
+            v-if="project.recording"
+            :src="project.recording"
+            controls
+            class="project-recording"
+          ></video>
         </article>
       </div>
     </div>
@@ -126,4 +133,12 @@ const projects = [
   border-radius: 3px;
   border: 1px solid rgba(0, 255, 136, 0.2);
 }
+
+.project-recording {
+  width: 100%;
+  border-radius: 4px;
+  max-height: 200px;
+  object-fit: cover;
+}
+
 </style>
