@@ -12,14 +12,14 @@
           <a href="mailto:you@email.com" class="contact-item">
             <span class="cmd-prompt">$</span>
             <span class="cmd-name">email</span>
-            <span class="cmd-value">you@email.com</span>
+            <span class="cmd-value">drnheffley@gmail.com</span>
           </a>
-          <a href="https://github.com/aheffley" target="_blank" rel="noopener" class="contact-item">
+          <a href="https://github.com/HeffleyA" target="_blank" rel="noopener" class="contact-item">
             <span class="cmd-prompt">$</span>
             <span class="cmd-name">github</span>
             <span class="cmd-value">github.com/aheffley</span>
           </a>
-          <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener" class="contact-item">
+          <a href="https://www.linkedin.com/in/adrian-heffley/" target="_blank" rel="noopener" class="contact-item">
             <span class="cmd-prompt">$</span>
             <span class="cmd-name">linkedin</span>
             <span class="cmd-value">linkedin.com/in/yourprofile</span>
