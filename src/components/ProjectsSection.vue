@@ -9,7 +9,7 @@ const projects = [
   },
   {
     name: 'Pastry Pets',
-    description: 'Pastry Pets is my Capstone Project from Neumont University. Pastry Pets is essentially a "Pokemon clone" in the sense that the player collects monsters and uses them to battle other monsters. Pastry Pets utilizes whisper.unity to take in audio input and convert it text and then a command for the player's Pastry Pets in battle.',
+    description: 'Pastry Pets is my Capstone Project from Neumont University. Pastry Pets is essentially a "Pokemon clone" in the sense that the player collects monsters and uses them to battle other monsters. ',
     tech: ['C#', 'whisper.unity', 'Unity', 'Visual Studio'],
     github: 'https://github.com/HeffleyA/HeffleyA_Capstone_PastryPets',
     recording: '/recordings/HeffleyA-PastryPets.mp4'
