@@ -2,7 +2,7 @@
 const projects = [
   {
     name: 'War-Zonez / Tank Game',
-    description: 'This "Tank Game" was the first game I had ever completed in Unity. I believe it is a good representation of my baseline understanding of C# code, game physics, and Unity',
+    description: 'This "Tank Game" was the first game I had ever completed in Unity. I believe it is a good representation of my baseline understanding of C# code, game physics, and Unity.',
     tech: ['C#', 'Unity', 'Visual'],
     github: 'https://github.com/HeffleyA/War-Zonez',
     recording: '/recordings/HeffleyA-TankGame.mp4'
