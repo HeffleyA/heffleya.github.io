@@ -3,24 +3,23 @@ const projects = [
   {
     name: 'War-Zonez / Tank Game',
     description: 'This "Tank Game" was the first game I had ever completed in Unity. I believe it is a good representation of my baseline understanding of C# code, game physics, and Unity',
-    tech: ['C#', 'Visual Studio', 'Unity'],
+    tech: ['C#', 'Unity', 'Visual'],
     github: 'https://github.com/HeffleyA/War-Zonez',
-    live: null,
     recording: '/recordings/HeffleyA-TankGame.mp4'
   },
   {
-    name: 'Project Beta',
-    description: 'A brief description of what this project does and the problem it solves. Replace with your real project details.',
-    tech: ['React', 'TypeScript', 'REST API'],
-    github: 'https://github.com/aheffley/project-beta',
-    live: 'https://example.com',
+    name: 'Pastry Pets',
+    description: 'Pastry Pets is my Capstone Project from Neumont University. Pastry Pets is essentially a "Pokemon clone" in the sense that the player collects monsters and uses them to battle other monsters. Pastry Pets utilizes whisper.unity to take in audio input and convert it text and then a command for the player's Pastry Pets in battle.',
+    tech: ['C#', 'whisper.unity', 'Unity', 'Visual Studio'],
+    github: 'https://github.com/HeffleyA/HeffleyA_Capstone_PastryPets',
+    recording: '/recordings/HeffleyA-PastryPets.mp4'
   },
   {
-    name: 'Project Gamma',
-    description: 'A brief description of what this project does and the problem it solves. Replace with your real project details.',
-    tech: ['Python', 'FastAPI', 'Docker'],
-    github: 'https://github.com/aheffley/project-gamma',
-    live: null,
+    name: 'Pokemon-JS',
+    description: 'Pokemon-JS is my first forked repository and the first existing codebase I have ever worked in. It is also my first exposure to React, TypeScript, and Redux. The changes I made to this codebase include implementing a day and night cycle and adding around 25 Pokemon from Pokemon Gold and Pokemon Silver to the game.',
+    tech: ['React', 'TypeScript', 'Redux', 'VS Code'],
+    github: 'https://github.com/HeffleyA/pokemon-js',
+    recording: '/recordings/HeffleyA-Pokemonjs.mp4'
   },
 ]
 </script>
