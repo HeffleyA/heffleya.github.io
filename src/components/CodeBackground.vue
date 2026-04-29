@@ -179,7 +179,7 @@ function lineAndCol(lines, revealed) {
   return { li: lines.length - 1, col: lines[lines.length - 1].length }
 }
 
-const CHAR_WIDTH = 8  // JetBrains Mono 13px approximate monospace advance
+let CHAR_WIDTH = 8  // overwritten at mount time with a real measurement
 const BLOCK_PADDING = 24
 
 function sessionRect(s) {
@@ -227,7 +227,9 @@ function newSession(cw, ch, existing = []) {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await document.fonts.ready
+
   const canvas = canvasEl.value
   const ctx = canvas.getContext('2d')
 
@@ -237,6 +239,9 @@ onMounted(() => {
   }
   resizeListener()
   window.addEventListener('resize', resizeListener)
+
+  ctx.font = FONT
+  CHAR_WIDTH = ctx.measureText('x'.repeat(50)).width / 50
 
   const sessions = []
   for (let i = 0; i < SESSION_COUNT; i++) {
