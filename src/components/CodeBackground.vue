@@ -15,7 +15,6 @@ const FONT_SIZE = 13
 const LINE_HEIGHT = Math.round(FONT_SIZE * 1.65)
 const FONT = `${FONT_SIZE}px 'JetBrains Mono', 'Fira Code', monospace`
 const BASE_ALPHA = 0.20
-const SESSION_COUNT = 5
 const CHARS_PER_MS = 1 / 28
 const PAUSE_AFTER = 4500
 const FADE_TIME = 2000
@@ -179,42 +178,11 @@ function lineAndCol(lines, revealed) {
   return { li: lines.length - 1, col: lines[lines.length - 1].length }
 }
 
-let CHAR_WIDTH = 8  // overwritten at mount time with a real measurement
-const BLOCK_PADDING = 24
-
-function sessionRect(s) {
-  const maxLen = Math.max(...s.lines.map(l => l.length))
-  return {
-    x: s.x - BLOCK_PADDING,
-    y: s.y - LINE_HEIGHT - BLOCK_PADDING,
-    w: maxLen * CHAR_WIDTH + BLOCK_PADDING * 2,
-    h: s.lines.length * LINE_HEIGHT + BLOCK_PADDING * 2,
-  }
-}
-
-function rectsOverlap(a, b) {
-  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y
-}
-
-function newSession(cw, ch, existing = []) {
+function newSession(cw, ch) {
   const lines = CODE_BLOCKS[Math.floor(Math.random() * CODE_BLOCKS.length)]
   const blockH = lines.length * LINE_HEIGHT
-  const maxLen = Math.max(...lines.map(l => l.length))
-  const active = existing.filter(s => !(s.state === 'fading' && s.timer >= FADE_TIME))
-
-  let x, y
-  for (let attempt = 0; attempt < 40; attempt++) {
-    x = 30 + Math.random() * Math.max(100, cw * 0.8 - maxLen * CHAR_WIDTH - 30)
-    y = 50 + Math.random() * Math.max(50, ch - blockH - 100)
-    const candidate = {
-      x: x - BLOCK_PADDING,
-      y: y - LINE_HEIGHT - BLOCK_PADDING,
-      w: maxLen * CHAR_WIDTH + BLOCK_PADDING * 2,
-      h: blockH + BLOCK_PADDING * 2,
-    }
-    if (!active.some(s => rectsOverlap(candidate, sessionRect(s)))) break
-  }
-
+  const x = 30 + Math.random() * Math.max(100, cw * 0.8 - 300)
+  const y = 50 + Math.random() * Math.max(50, ch - blockH - 100)
   return {
     lines,
     total: totalChars(lines),
@@ -223,7 +191,6 @@ function newSession(cw, ch, existing = []) {
     x, y,
     state: 'typing',
     timer: 0,
-    startDelay: Math.random() * 4000,
   }
 }
 
@@ -240,14 +207,7 @@ onMounted(async () => {
   resizeListener()
   window.addEventListener('resize', resizeListener)
 
-  ctx.font = FONT
-  CHAR_WIDTH = ctx.measureText('x'.repeat(50)).width / 50
-
-  const sessions = []
-  for (let i = 0; i < SESSION_COUNT; i++) {
-    sessions.push(newSession(canvas.width, canvas.height, sessions))
-  }
-
+  let session = newSession(canvas.width, canvas.height)
   let prev = performance.now()
 
   function frame(now) {
@@ -258,62 +218,55 @@ onMounted(async () => {
     ctx.font = FONT
     ctx.textBaseline = 'alphabetic'
 
+    const s = session
+    let alpha = BASE_ALPHA
+
+    if (s.state === 'typing') {
+      s.budget += dt * CHARS_PER_MS
+      if (s.budget >= 1) {
+        const add = Math.floor(s.budget)
+        s.revealed = Math.min(s.total, s.revealed + add)
+        s.budget -= add
+      }
+      if (s.revealed >= s.total) {
+        s.state = 'pausing'
+        s.timer = 0
+      }
+    } else if (s.state === 'pausing') {
+      s.timer += dt
+      if (s.timer >= PAUSE_AFTER) {
+        s.state = 'fading'
+        s.timer = 0
+      }
+    } else if (s.state === 'fading') {
+      s.timer += dt
+      alpha = BASE_ALPHA * (1 - s.timer / FADE_TIME)
+      if (s.timer >= FADE_TIME) {
+        session = newSession(canvas.width, canvas.height)
+        animId = requestAnimationFrame(frame)
+        return
+      }
+    }
+
     const blink = Math.floor(now / 530) % 2 === 0
+    const { li: curLi, col: curCol } = lineAndCol(s.lines, s.revealed)
 
-    for (const s of sessions) {
-      if (s.startDelay > 0) {
-        s.startDelay -= dt
-        continue
+    for (let i = 0; i <= curLi; i++) {
+      const line = s.lines[i]
+      const isActive = i === curLi
+      const text = isActive ? line.slice(0, curCol) : line
+      const lineY = s.y + i * LINE_HEIGHT
+
+      if (text) {
+        const a = isActive ? Math.min(1, alpha * 1.8) : alpha
+        ctx.fillStyle = `rgba(0, 255, 136, ${a})`
+        ctx.fillText(text, s.x, lineY)
       }
 
-      let alpha = BASE_ALPHA
-
-      if (s.state === 'typing') {
-        s.budget += dt * CHARS_PER_MS
-        if (s.budget >= 1) {
-          const add = Math.floor(s.budget)
-          s.revealed = Math.min(s.total, s.revealed + add)
-          s.budget -= add
-        }
-        if (s.revealed >= s.total) {
-          s.state = 'pausing'
-          s.timer = 0
-        }
-      } else if (s.state === 'pausing') {
-        s.timer += dt
-        if (s.timer >= PAUSE_AFTER) {
-          s.state = 'fading'
-          s.timer = 0
-        }
-      } else if (s.state === 'fading') {
-        s.timer += dt
-        alpha = BASE_ALPHA * (1 - s.timer / FADE_TIME)
-        if (s.timer >= FADE_TIME) {
-          Object.assign(s, newSession(canvas.width, canvas.height, sessions))
-          s.startDelay = 500 + Math.random() * 2000
-          continue
-        }
-      }
-
-      const { li: curLi, col: curCol } = lineAndCol(s.lines, s.revealed)
-
-      for (let i = 0; i <= curLi; i++) {
-        const line = s.lines[i]
-        const isActive = i === curLi
-        const text = isActive ? line.slice(0, curCol) : line
-        const lineY = s.y + i * LINE_HEIGHT
-
-        if (text) {
-          const a = isActive ? Math.min(1, alpha * 1.8) : alpha
-          ctx.fillStyle = `rgba(0, 255, 136, ${a})`
-          ctx.fillText(text, s.x, lineY)
-        }
-
-        if (isActive && s.state === 'typing' && blink) {
-          const tw = text ? ctx.measureText(text).width : 0
-          ctx.fillStyle = `rgba(0, 255, 136, ${Math.min(1, alpha * 3)})`
-          ctx.fillRect(s.x + tw, lineY - FONT_SIZE + 2, 2, FONT_SIZE)
-        }
+      if (isActive && s.state === 'typing' && blink) {
+        const tw = text ? ctx.measureText(text).width : 0
+        ctx.fillStyle = `rgba(0, 255, 136, ${Math.min(1, alpha * 3)})`
+        ctx.fillRect(s.x + tw, lineY - FONT_SIZE + 2, 2, FONT_SIZE)
       }
     }
 
