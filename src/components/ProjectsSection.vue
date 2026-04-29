@@ -1,4 +1,6 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
 const projects = [
   {
     name: 'War-Zonez / Tank Game',
@@ -9,7 +11,7 @@ const projects = [
   },
   {
     name: 'Pastry Pets',
-    description: 'Pastry Pets is my Capstone Project from Neumont University. Pastry Pets is essentially a "Pokemon clone" in the sense that the player collects monsters and uses them to battle other monsters. Pastry Pets utilizes whisper.unity to take in audio input and convert it text and then a command for Pastry Pets in battle.',
+    description: 'Pastry Pets is my Capstone Project from Neumont University. Pastry Pets is essentially a "Pokemon clone" in the sense that the player collects monsters and uses them to battle other monsters. Pastry Pets utilizes whisper.unity to take in audio input and convert it to text and then a command for Pastry Pets in battle.',
     tech: ['C#', 'whisper.unity', 'Unity', 'Visual Studio'],
     github: 'https://github.com/HeffleyA/HeffleyA_Capstone_PastryPets',
     recording: '/recordings/HeffleyA-PastryPets.mp4'
@@ -22,6 +24,84 @@ const projects = [
     recording: '/recordings/HeffleyA-Pokemonjs.mp4'
   },
 ]
+
+const currentIndex = ref(0)
+const dragOffset = ref(0)
+const isDragging = ref(false)
+const dragStartX = ref(0)
+const trackRef = ref(null)
+const containerWidth = ref(900)
+
+const STEP_RATIO = 0.65
+const CARD_RATIO = 0.60
+const DRAG_THRESHOLD = 60
+
+let ro = null
+
+onMounted(() => {
+  containerWidth.value = trackRef.value.getBoundingClientRect().width
+  ro = new ResizeObserver(([entry]) => {
+    containerWidth.value = entry.contentRect.width
+  })
+  ro.observe(trackRef.value)
+})
+
+onUnmounted(() => ro?.disconnect())
+
+function relPos(i) {
+  let rel = i - currentIndex.value
+  const half = projects.length / 2
+  if (rel > half) rel -= projects.length
+  if (rel < -half) rel += projects.length
+  return rel + dragOffset.value / (containerWidth.value * STEP_RATIO)
+}
+
+function cardStyle(i) {
+  const W = containerWidth.value
+  const cardW = W * CARD_RATIO
+  const pos = relPos(i)
+  const abPos = Math.abs(pos)
+
+  const x = W / 2 + pos * W * STEP_RATIO - cardW / 2
+  const scale = 1 - Math.min(abPos, 1) * 0.15
+  const opacity = abPos > 1.7 ? 0 : Math.max(0.35, 1 - abPos * 0.65)
+
+  return {
+    width: `${cardW}px`,
+    transform: `translateX(${x}px) scale(${scale})`,
+    opacity,
+    zIndex: abPos > 1.7 ? 0 : Math.round(10 - abPos * 4),
+    transition: isDragging.value
+      ? 'none'
+      : 'transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.38s ease',
+    pointerEvents: abPos > 1.4 ? 'none' : 'auto',
+  }
+}
+
+function navigate(dir) {
+  currentIndex.value = (currentIndex.value + dir + projects.length) % projects.length
+}
+
+function onPointerDown(e) {
+  if (e.button !== 0) return
+  isDragging.value = true
+  dragStartX.value = e.clientX
+  dragOffset.value = 0
+  e.currentTarget.setPointerCapture(e.pointerId)
+}
+
+function onPointerMove(e) {
+  if (!isDragging.value) return
+  dragOffset.value = e.clientX - dragStartX.value
+}
+
+function onPointerUp() {
+  if (!isDragging.value) return
+  if (dragOffset.value < -DRAG_THRESHOLD) navigate(1)
+  else if (dragOffset.value > DRAG_THRESHOLD) navigate(-1)
+  isDragging.value = false
+  dragOffset.value = 0
+}
 </script>
 
 <template>
@@ -29,40 +109,85 @@ const projects = [
     <div class="container">
       <p class="section-label">// work</p>
       <h2 class="section-title">projects</h2>
-      <div class="projects-grid">
-        <article v-for="project in projects" :key="project.name" class="project-card">
-          <div class="card-header">
-            <span class="card-icon">&#128193;</span>
-            <div class="card-links">
-              <a v-if="project.github" :href="project.github" target="_blank" rel="noopener">[github]</a>
-              <a v-if="project.live" :href="project.live" target="_blank" rel="noopener">[live]</a>
+
+      <div class="carousel-outer">
+        <button class="arrow" @click="navigate(-1)" aria-label="Previous project">&#8249;</button>
+
+        <div
+          ref="trackRef"
+          class="carousel-track"
+          @pointerdown="onPointerDown"
+          @pointermove="onPointerMove"
+          @pointerup="onPointerUp"
+          @pointercancel="onPointerUp"
+        >
+          <article
+            v-for="(project, i) in projects"
+            :key="project.name"
+            class="project-card"
+            :style="cardStyle(i)"
+          >
+            <div class="card-header">
+              <span class="card-icon">&#128193;</span>
+              <div class="card-links">
+                <a v-if="project.github" :href="project.github" target="_blank" rel="noopener" @pointerdown.stop>[github]</a>
+                <a v-if="project.live" :href="project.live" target="_blank" rel="noopener" @pointerdown.stop>[live]</a>
+              </div>
             </div>
-          </div>
-          <h3 class="project-name">{{ project.name }}</h3>
-          <p class="project-desc">{{ project.description }}</p>
-          <div class="tech-stack">
-            <span v-for="tech in project.tech" :key="tech" class="tech-tag">{{ tech }}</span>
-          </div>
-          <video
-            v-if="project.recording"
-            :src="project.recording"
-            controls
-            class="project-recording"
-          ></video>
-        </article>
+            <h3 class="project-name">{{ project.name }}</h3>
+            <p class="project-desc">{{ project.description }}</p>
+            <div class="tech-stack">
+              <span v-for="tech in project.tech" :key="tech" class="tech-tag">{{ tech }}</span>
+            </div>
+            <video
+              v-if="project.recording"
+              :src="project.recording"
+              controls
+              class="project-recording"
+              @pointerdown.stop
+            ></video>
+          </article>
+        </div>
+
+        <button class="arrow" @click="navigate(1)" aria-label="Next project">&#8250;</button>
+      </div>
+
+      <div class="dots">
+        <button
+          v-for="(_, i) in projects"
+          :key="i"
+          class="dot"
+          :class="{ active: i === currentIndex }"
+          @click="currentIndex = i"
+          :aria-label="`Go to project ${i + 1}`"
+        />
       </div>
     </div>
   </section>
 </template>
 
 <style scoped>
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.25rem;
+.carousel-outer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.carousel-track {
+  flex: 1;
+  position: relative;
+  height: 580px;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.carousel-track:active {
+  cursor: grabbing;
 }
 
 .project-card {
+  position: absolute;
+  top: 0;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -70,7 +195,8 @@ const projects = [
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transform-origin: top center;
+  will-change: transform, opacity;
 }
 
 .project-card:hover {
@@ -121,7 +247,6 @@ const projects = [
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 0.25rem;
 }
 
 .tech-tag {
@@ -140,4 +265,50 @@ const projects = [
   object-fit: cover;
 }
 
+.arrow {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 2.2rem;
+  line-height: 1;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+  user-select: none;
+}
+
+.arrow:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.dot.active {
+  background: var(--accent);
+  transform: scale(1.3);
+}
 </style>
