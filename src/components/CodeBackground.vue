@@ -200,7 +200,7 @@ function newSession(cw, ch, existing = []) {
   const lines = CODE_BLOCKS[Math.floor(Math.random() * CODE_BLOCKS.length)]
   const blockH = lines.length * LINE_HEIGHT
   const maxLen = Math.max(...lines.map(l => l.length))
-  const active = existing.filter(s => s.state !== 'fading')
+  const active = existing.filter(s => !(s.state === 'fading' && s.timer >= FADE_TIME))
 
   let x, y
   for (let attempt = 0; attempt < 40; attempt++) {
