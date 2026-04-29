@@ -3,17 +3,17 @@ const skills = [
   {
     category: 'Languages',
     icon: '</>',
-    items: ['JavaScript', 'TypeScript', 'Python', 'C#', 'SQL'],
+    items: ['C#', 'C++', 'Java', 'JavaScript', 'Python', 'SQL', 'HTML', 'XAML', 'CSS', 'TypeScript'],
   },
   {
     category: 'Frameworks & Libraries',
     icon: '{ }',
-    items: ['Vue.js', 'React', 'Node.js', 'ASP.NET Core', 'FastAPI'],
+    items: ['ASP.NET Core', 'ASP.NET Razor', '.NET Maui', 'Blazor', 'Angular'],
   },
   {
     category: 'Tools & Platforms',
     icon: '>>',
-    items: ['Git', 'Docker', 'GitHub Actions', 'VS Code', 'Linux'],
+    items: ['Git', 'GitHub', 'Visual Studio', 'VSCode', 'Unity', 'Unreal Engine', 'Bitbucket'],
   },
 ]
 </script>

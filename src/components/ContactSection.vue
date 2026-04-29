@@ -5,8 +5,8 @@
       <h2 class="section-title">contact</h2>
       <div class="contact-block">
         <p class="intro">
-          I'm currently open to new opportunities. Whether you have a question
-          or just want to connect, feel free to reach out.
+          I am currently open to new and interesting opportunities. For inquiries and questions,
+          please contact me using the information below.
         </p>
         <div class="contact-links">
           <a href="mailto:you@email.com" class="contact-item">
