@@ -10,22 +10,22 @@
         </div>
         <div class="terminal-body">
           <p><span class="prompt">$</span> whoami</p>
-          <h1 class="name">Your Name</h1>
-          <p class="role">Software Developer</p>
+          <h1 class="name">Adrian Heffley</h1>
+          <p class="role">Software and Game Developer</p>
 
           <br />
 
           <p><span class="prompt">$</span> cat bio.txt</p>
           <p class="bio">
-            A passionate developer with experience building web applications and
-            command-line tools. I enjoy solving complex problems and writing clean,
-            maintainable code.
+            An adaptable developer always open to learning new languages and technologies and trying different coding practices.
+            I have experience building Unity, Unreal Engine, and Web applications.
+            I enjoy tackling problems from multiple different angles to come to the most efficient and easy to understand solution.
           </p>
 
           <br />
 
           <p><span class="prompt">$</span> cat location.txt</p>
-          <p class="value">Your City, State</p>
+          <p class="value">Salt Lake City, Utah</p>
 
           <br />
 
