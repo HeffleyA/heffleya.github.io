@@ -179,11 +179,42 @@ function lineAndCol(lines, revealed) {
   return { li: lines.length - 1, col: lines[lines.length - 1].length }
 }
 
-function newSession(cw, ch) {
+const CHAR_WIDTH = 8  // JetBrains Mono 13px approximate monospace advance
+const BLOCK_PADDING = 24
+
+function sessionRect(s) {
+  const maxLen = Math.max(...s.lines.map(l => l.length))
+  return {
+    x: s.x - BLOCK_PADDING,
+    y: s.y - LINE_HEIGHT - BLOCK_PADDING,
+    w: maxLen * CHAR_WIDTH + BLOCK_PADDING * 2,
+    h: s.lines.length * LINE_HEIGHT + BLOCK_PADDING * 2,
+  }
+}
+
+function rectsOverlap(a, b) {
+  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y
+}
+
+function newSession(cw, ch, existing = []) {
   const lines = CODE_BLOCKS[Math.floor(Math.random() * CODE_BLOCKS.length)]
   const blockH = lines.length * LINE_HEIGHT
-  const x = 30 + Math.random() * Math.max(100, cw * 0.8 - 300)
-  const y = 50 + Math.random() * Math.max(50, ch - blockH - 100)
+  const maxLen = Math.max(...lines.map(l => l.length))
+  const active = existing.filter(s => s.state !== 'fading')
+
+  let x, y
+  for (let attempt = 0; attempt < 40; attempt++) {
+    x = 30 + Math.random() * Math.max(100, cw * 0.8 - maxLen * CHAR_WIDTH - 30)
+    y = 50 + Math.random() * Math.max(50, ch - blockH - 100)
+    const candidate = {
+      x: x - BLOCK_PADDING,
+      y: y - LINE_HEIGHT - BLOCK_PADDING,
+      w: maxLen * CHAR_WIDTH + BLOCK_PADDING * 2,
+      h: blockH + BLOCK_PADDING * 2,
+    }
+    if (!active.some(s => rectsOverlap(candidate, sessionRect(s)))) break
+  }
+
   return {
     lines,
     total: totalChars(lines),
@@ -207,9 +238,10 @@ onMounted(() => {
   resizeListener()
   window.addEventListener('resize', resizeListener)
 
-  const sessions = Array.from({ length: SESSION_COUNT }, () =>
-    newSession(canvas.width, canvas.height)
-  )
+  const sessions = []
+  for (let i = 0; i < SESSION_COUNT; i++) {
+    sessions.push(newSession(canvas.width, canvas.height, sessions))
+  }
 
   let prev = performance.now()
 
@@ -252,7 +284,7 @@ onMounted(() => {
         s.timer += dt
         alpha = BASE_ALPHA * (1 - s.timer / FADE_TIME)
         if (s.timer >= FADE_TIME) {
-          Object.assign(s, newSession(canvas.width, canvas.height))
+          Object.assign(s, newSession(canvas.width, canvas.height, sessions))
           s.startDelay = 500 + Math.random() * 2000
           continue
         }
