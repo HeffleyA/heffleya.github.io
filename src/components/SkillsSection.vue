@@ -34,6 +34,14 @@ const offsets = (() => {
   return o
 })()
 
+// Per-block horizontal sway amplitude (Burger Time drift). Each block starts
+// off to one side and zig-zags left↔right as it falls, settling centered.
+const sways = allBlocks.map(() => {
+  const amp = 45 + Math.random() * 55          // 45–100px swing
+  const dir = Math.random() < 0.5 ? -1 : 1
+  return `${Math.round(amp * dir)}px`
+})
+
 const CONTAINER_H = allBlocks.length * BLOCK_H + BASE_PX + 24
 
 const viewMode = ref('stack')
@@ -48,7 +56,7 @@ function runAnimation() {
   timers = []
   landedCount.value = -1
   allBlocks.forEach((_, i) => {
-    timers.push(setTimeout(() => { landedCount.value = i }, 300 + i * 100))
+    timers.push(setTimeout(() => { landedCount.value = i }, 300 + i * 170))
   })
 }
 
@@ -80,6 +88,7 @@ function blockStyle(i) {
   return {
     '--si': allBlocks.length - 1 - i,
     '--ox': `${offsets[i]}px`,
+    '--sway': sways[i],
   }
 }
 
@@ -190,20 +199,27 @@ function catClass(category) {
   color: var(--text-secondary);
   user-select: none;
   /* hidden above the container until animation fires */
-  transform: translateY(-1100px);
+  transform: translate(var(--sway, 0px), -1100px);
   opacity: 0;
 }
 
 .stack-block.landed {
-  animation: fall-land 0.52s cubic-bezier(0.4, 0, 1, 1) forwards;
+  /* linear master timing — gravity & sway are baked into the keyframe values */
+  animation: burger-fall 1.7s linear forwards;
 }
 
-@keyframes fall-land {
-  0%   { transform: translateY(-1100px); opacity: 0; }
-  6%   { opacity: 1; }
-  82%  { transform: translateY(7px); }
-  91%  { transform: translateY(-2px); }
-  100% { transform: translateY(0); opacity: 1; }
+/* Each block accelerates downward (gravity) while drifting left↔right with a
+   decaying zig-zag, then settles centered with a small bounce — Burger Time. */
+@keyframes burger-fall {
+  0%   { transform: translate(calc(var(--sway) *  1.00), -1100px); opacity: 0; }
+  5%   { opacity: 1; }
+  20%  { transform: translate(calc(var(--sway) * -0.80), -1030px); }
+  40%  { transform: translate(calc(var(--sway) *  0.60),  -830px); }
+  60%  { transform: translate(calc(var(--sway) * -0.40),  -490px); }
+  78%  { transform: translate(calc(var(--sway) *  0.20),  -180px); }
+  90%  { transform: translate(0, 10px); }
+  96%  { transform: translate(0, -4px); }
+  100% { transform: translate(0, 0); opacity: 1; }
 }
 
 .stack-block.landed:hover {
