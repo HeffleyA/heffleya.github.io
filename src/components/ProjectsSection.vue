@@ -27,8 +27,20 @@ const projects = [
     name: 'Passenger',
     description: 'Passenger is the first game demo I have helped create ever! Passenger at the core of it is meant to be more than a game. The intention behind Passenger is to be a tool to help those with neurodivergency familiarize themselves with social cues and difficult situations. Passenger is the game that really built my foundation for working in a team.',
     tech: ['C#', 'Unity', 'VSCode'],
-    github: 'https://github.com/HeffleyA',
     recording: '/recordings/Team-9-Passenger.mp4'
+  },
+  {
+    name: 'Harmony Hall',
+    description: 'Harmony Hall is the first game demo I have helped create in Unity. Similarly to Passenger, Harmony Hall is meant to be a tool, not just a game. The intention behind Harmony Hall is to help those with neurodivergency understand their feelings and become more emotionally aware of themselves.',
+    tech: ['C#', 'Unity', 'VSCode'],
+    recording: '/recordings/Team-20-Harmony-Hall.mp4'
+  },
+  {
+    name: 'OhBugger!',
+    description: 'OhBugger! is the first game I made during a GameJam in which my team and I had to make a game in 48 hours. The theme of the GameJam was It is not a bugger, it is a feature. I believe OhBugger! is a good representation of my base understanding of Unreal Engine',
+    tech: ['Unreal Blueprints', 'Unreal Engine', 'Unreal Editor'],
+    github: 'https://github.com/HeffleyA/OhBugger',
+    recording: '/recordings/OhBugger.mp4'
   }
 ]
 
