@@ -27,6 +27,7 @@ const projects = [
     name: 'Passenger',
     description: 'Passenger is the first game demo I have helped create ever! Passenger at it's core is meant to be more than a game. The intention behind Passenger is to be a tool to help those with neurodivergency familiarize themselves with social cues and difficult situations. Passenger is the game that really built my foundation for working in a team.',
     tech: ['C#', 'Unity', 'VSCode'],
+    github: 'https://github.com/HeffleyA',
     recording: '/recordings/Team-9-Passenger.mp4'
   }
 ]
