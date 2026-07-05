@@ -22,10 +22,10 @@ function scrollTo(id) {
         aheffley
       </div>
       <ul class="nav-links">
-        <li><button @click="scrollTo('about')">about</button></li>
-        <li><button @click="scrollTo('projects')">projects</button></li>
-        <li><button @click="scrollTo('skills')">skills</button></li>
-        <li><button @click="scrollTo('contact')">contact</button></li>
+        <li><button @click="scrollTo('about')">About</button></li>
+        <li><button @click="scrollTo('projects')">Projects</button></li>
+        <li><button @click="scrollTo('skills')">Skills</button></li>
+        <li><button @click="scrollTo('contact')">Contact</button></li>
       </ul>
     </div>
   </nav>

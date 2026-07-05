@@ -128,7 +128,6 @@ function onPointerUp() {
             :style="cardStyle(i)"
           >
             <div class="card-header">
-              <span class="card-icon">&#128193;</span>
               <div class="card-links">
                 <a v-if="project.github" :href="project.github" target="_blank" rel="noopener" @pointerdown.stop>github</a>
                 <a v-if="project.live" :href="project.live" target="_blank" rel="noopener" @pointerdown.stop>live</a>
@@ -206,7 +205,7 @@ function onPointerUp() {
 
 .card-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 

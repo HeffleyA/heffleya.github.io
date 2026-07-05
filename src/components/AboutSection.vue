@@ -6,16 +6,16 @@
           <span class="dot red"></span>
           <span class="dot yellow"></span>
           <span class="dot green"></span>
-          <span class="terminal-title">about.sh</span>
+          <span class="terminal-title">About</span>
         </div>
         <div class="terminal-body">
-          <p>whoami</p>
+          <p>Who am I?</p>
           <h1 class="name">Adrian Heffley</h1>
           <p class="role">Software and Game Developer</p>
 
           <br />
 
-          <p>cat bio.txt</p>
+          <p>Bio</p>
           <p class="bio">
             An adaptable developer always open to learning new languages and technologies and trying different coding practices.
             I have experience building Unity, Unreal Engine, and Web applications.
@@ -24,7 +24,7 @@
 
           <br />
 
-          <p>cat location.txt</p>
+          <p>Location</p>
           <p class="value">Salt Lake City, Utah</p>
         </div>
       </div>
