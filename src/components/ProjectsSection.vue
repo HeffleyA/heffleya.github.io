@@ -4,8 +4,8 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const projects = [
   {
     name: 'War-Zonez / Tank Game',
-    description: 'This "Tank Game" was the first game I had ever completed in Unity. I believe it is a good representation of my baseline understanding of C# code, game physics, and Unity.',
-    tech: ['C#', 'Unity', 'Visual'],
+    description: 'This "Tank Game" was the first game I had ever completed solo in Unity. I believe it is a good representation of my baseline understanding of C# code, game physics, and Unity.',
+    tech: ['C#', 'Unity', 'Visual Studio'],
     github: 'https://github.com/HeffleyA/War-Zonez',
     recording: '/recordings/HeffleyA-TankGame.mp4'
   },
@@ -23,6 +23,12 @@ const projects = [
     github: 'https://github.com/HeffleyA/pokemon-js',
     recording: '/recordings/HeffleyA-Pokemonjs.mp4'
   },
+  {
+    name: 'Passenger',
+    description: 'Passenger is the first game demo I have helped create ever! Passenger at it's core is meant to be more than a game. The intention behind Passenger is to be a tool to help those with neurodivergency familiarize themselves with social cues and difficult situations. Passenger is the game that really built my foundation for working in a team.',
+    tech: ['C#', 'Unity', 'VSCode'],
+    recording: '/recordings/Team-9-Passenger.mp4'
+  }
 ]
 
 const currentIndex = ref(0)
