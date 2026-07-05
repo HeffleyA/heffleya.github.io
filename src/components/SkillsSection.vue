@@ -4,17 +4,14 @@ import { ref, onMounted, onUnmounted } from 'vue'
 const skills = [
   {
     category: 'Languages',
-    icon: '</>',
     items: ['C#', 'C++', 'Java', 'JavaScript', 'Python', 'SQL', 'HTML', 'XAML', 'CSS', 'TypeScript'],
   },
   {
     category: 'Frameworks & Libraries',
-    icon: '{ }',
     items: ['ASP.NET Core', 'ASP.NET Razor', '.NET Maui', 'Blazor', 'Angular'],
   },
   {
     category: 'Tools & Platforms',
-    icon: '>>',
     items: ['Git', 'GitHub', 'Visual Studio', 'VSCode', 'Unity', 'Unreal Engine', 'Bitbucket'],
   },
 ]
@@ -96,12 +93,12 @@ function catClass(category) {
 <template>
   <section id="skills" ref="sectionRef">
     <div class="container">
-      <p class="section-label">// stack</p>
+      <p class="section-label">stack</p>
       <h2 class="section-title">skills</h2>
 
       <div class="view-toggle">
-        <button :class="{ active: viewMode === 'stack' }" @click="setMode('stack')">[ tower ]</button>
-        <button :class="{ active: viewMode === 'grid' }" @click="setMode('grid')">[ list ]</button>
+        <button :class="{ active: viewMode === 'stack' }" @click="setMode('stack')">tower</button>
+        <button :class="{ active: viewMode === 'grid' }" @click="setMode('grid')">list</button>
       </div>
 
       <!-- Tower view -->
@@ -126,7 +123,7 @@ function catClass(category) {
         </div>
 
         <div class="replay-wrap">
-          <button class="mono-btn" @click="runAnimation">[ replay ]</button>
+          <button class="mono-btn" @click="runAnimation">replay</button>
         </div>
       </template>
 
@@ -134,7 +131,6 @@ function catClass(category) {
       <div v-else class="skills-grid">
         <div v-for="group in skills" :key="group.category" class="skill-group">
           <div class="group-header">
-            <span class="group-icon">{{ group.icon }}</span>
             <span class="group-name">{{ group.category }}</span>
           </div>
           <div class="skill-tags">

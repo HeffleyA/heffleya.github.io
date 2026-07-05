@@ -9,13 +9,13 @@
           <span class="terminal-title">about.sh</span>
         </div>
         <div class="terminal-body">
-          <p><span class="prompt">$</span> whoami</p>
+          <p>whoami</p>
           <h1 class="name">Adrian Heffley</h1>
           <p class="role">Software and Game Developer</p>
 
           <br />
 
-          <p><span class="prompt">$</span> cat bio.txt</p>
+          <p>cat bio.txt</p>
           <p class="bio">
             An adaptable developer always open to learning new languages and technologies and trying different coding practices.
             I have experience building Unity, Unreal Engine, and Web applications.
@@ -24,15 +24,8 @@
 
           <br />
 
-          <p><span class="prompt">$</span> cat location.txt</p>
+          <p>cat location.txt</p>
           <p class="value">Salt Lake City, Utah</p>
-
-          <br />
-
-          <p>
-            <span class="prompt">$</span>
-            <span class="cursor-blink"> _</span>
-          </p>
         </div>
       </div>
     </div>

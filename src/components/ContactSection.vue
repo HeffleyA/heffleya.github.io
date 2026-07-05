@@ -1,7 +1,7 @@
 <template>
   <section id="contact">
     <div class="container">
-      <p class="section-label">// reach out</p>
+      <p class="section-label">reach out</p>
       <h2 class="section-title">contact</h2>
       <div class="contact-block">
         <p class="intro">
@@ -10,17 +10,14 @@
         </p>
         <div class="contact-links">
           <a href="mailto:you@email.com" class="contact-item">
-            <span class="cmd-prompt">$</span>
             <span class="cmd-name">email</span>
             <span class="cmd-value">drnheffley@gmail.com</span>
           </a>
           <a href="https://github.com/HeffleyA" target="_blank" rel="noopener" class="contact-item">
-            <span class="cmd-prompt">$</span>
             <span class="cmd-name">github</span>
             <span class="cmd-value">https://github.com/HeffleyA</span>
           </a>
           <a href="https://www.linkedin.com/in/adrian-heffley/" target="_blank" rel="noopener" class="contact-item">
-            <span class="cmd-prompt">$</span>
             <span class="cmd-name">linkedin</span>
             <span class="cmd-value">https://www.linkedin.com/in/adrian-heffley/</span>
           </a>

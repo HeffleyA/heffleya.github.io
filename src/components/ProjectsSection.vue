@@ -107,7 +107,7 @@ function onPointerUp() {
 <template>
   <section id="projects">
     <div class="container">
-      <p class="section-label">// work</p>
+      <p class="section-label">work</p>
       <h2 class="section-title">projects</h2>
 
       <div class="carousel-outer">
@@ -130,8 +130,8 @@ function onPointerUp() {
             <div class="card-header">
               <span class="card-icon">&#128193;</span>
               <div class="card-links">
-                <a v-if="project.github" :href="project.github" target="_blank" rel="noopener" @pointerdown.stop>[github]</a>
-                <a v-if="project.live" :href="project.live" target="_blank" rel="noopener" @pointerdown.stop>[live]</a>
+                <a v-if="project.github" :href="project.github" target="_blank" rel="noopener" @pointerdown.stop>github</a>
+                <a v-if="project.live" :href="project.live" target="_blank" rel="noopener" @pointerdown.stop>live</a>
               </div>
             </div>
             <h3 class="project-name">{{ project.name }}</h3>

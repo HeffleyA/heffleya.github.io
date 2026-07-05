@@ -19,7 +19,7 @@ function scrollTo(id) {
   <nav :class="{ scrolled }">
     <div class="nav-inner container">
       <div class="logo" @click="scrollTo('about')">
-        <span class="prompt">&gt;</span> aheffley<span class="cursor">_</span>
+        aheffley
       </div>
       <ul class="nav-links">
         <li><button @click="scrollTo('about')">about</button></li>
@@ -96,7 +96,7 @@ nav.scrolled {
 }
 
 .nav-links button::before {
-  content: './';
+  content: '';
   color: var(--text-muted);
 }
 

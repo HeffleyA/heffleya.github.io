@@ -19,7 +19,7 @@ import CodeBackground from './components/CodeBackground.vue'
     </main>
     <footer>
       <div class="container">
-        <span>// built with Vue.js &amp; deployed on GitHub Pages</span>
+        <span>built with Vue.js &amp; deployed on GitHub Pages</span>
       </div>
     </footer>
   </div>
