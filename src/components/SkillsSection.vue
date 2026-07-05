@@ -12,7 +12,7 @@ const skills = [
   },
   {
     category: 'Tools & Platforms',
-    items: ['Git', 'GitHub', 'Visual Studio', 'VSCode', 'Unity', 'Unreal Engine', 'Bitbucket'],
+    items: ['Git', 'GitHub', 'Visual Studio', 'VSCode', 'Unity', 'Unreal Engine', 'GameMaker', 'Bitbucket', 'Cursor'],
   },
 ]
 

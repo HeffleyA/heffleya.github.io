@@ -20,6 +20,10 @@ import CodeBackground from './components/CodeBackground.vue'
     <footer>
       <div class="container">
         <span>built with Vue.js &amp; deployed on GitHub Pages</span>
+        <p class="disclaimer">
+          This site was generated with the help of Claude (Anthropic's AI), then
+          reviewed, edited, and refined by Adrian Heffley.
+        </p>
       </div>
     </footer>
   </div>
@@ -37,5 +41,15 @@ footer {
   text-align: center;
   color: var(--text-muted);
   font-size: 0.8rem;
+}
+
+.disclaimer {
+  margin-top: 0.75rem;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  opacity: 0.75;
 }
 </style>
